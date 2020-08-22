@@ -164,7 +164,7 @@ class Engine():
 
         if len(self.log) > 0 and self.lastrow == '':
             self.lastrow = self.log.pop(0)
-        print(self.lastrow)
+        # print(self.lastrow)
 
         param = 1
         while len(data)>param:
