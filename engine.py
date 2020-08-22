@@ -2,6 +2,8 @@ import keyboard
 import mouse
 from timeit import default_timer
 import time
+from PIL import ImageGrab
+import win32gui
 
 #KeyPress (press, [waitms])
 #MouseClick (press, [waitms]) L-left button
@@ -47,6 +49,7 @@ class Engine():
         self.DoTimer = [0 for i in range(self.DoTimerMax)]
         self.log = []
         self.lastrow = ''
+        self.waitEnergyTest = 0
 
     def addCommand(self, data, command):
         try:
@@ -74,8 +77,6 @@ class Engine():
             self.Points.append([point[0],point[1]])
         
         print(self.Points)
-
-
 
     def run(self):
         ret = []       
@@ -182,11 +183,52 @@ class Engine():
         else:
             return 0
 
+    def SubProcedure_WaitFullEnergy(self, data):
+        time.sleep(0.05)
+        tx1 = 967
+        tx2 = 1137
+
+        im = ImageGrab.grab(bbox =(tx1, 833, tx2, 835))
+
+
+        green = 0
+        for x in range(tx1,tx2):
+            rgb = im.getpixel((x-tx1, 1))
+            if rgb[1]>100:
+                 green = green + 1
+            # print(rgb[0], rgb[1], rgb[2])
+
+        sp = green / (tx2-tx1)*100
+        
+        if sp >= 98:
+            return 1
+        else:
+            return 0
+
+
+
     def SubProcedure_MouseMoveTo(self,data):
         mouse.move(self.Points[int(data[0])][0],self.Points[int(data[0])][1])
         if len(data)>1:
             time.sleep(float(data[1])/1000)
         return 1
+
+    def SubProcedure_ActivateChar1(self,data):
+        whnd = win32gui.FindWindowEx(None, None, None, "(SoloSt) Wurm Online 4.2.19(f56def8)")
+        if not (whnd == 0):
+            print("FOUND!")
+            win32gui.SetForegroundWindow(whnd)
+        time.sleep(0.2)
+        return 1
+
+    def SubProcedure_ActivateChar2(self,data):
+        whnd = win32gui.FindWindowEx(None, None, None, "(SoloPri) Wurm Online 4.2.19(f56def8)")
+        if not (whnd == 0):
+            print("FOUND!")
+            win32gui.SetForegroundWindow(whnd)
+        time.sleep(0.2)
+        return 1
+
 
     def SubProcedure_MouseMoveDiff(self,data):
         pos = mouse.get_position()

@@ -5,6 +5,9 @@ import keyboard
 from timeit import default_timer
 from TreadWorker import TreadWorker
 import winsound
+from PIL import ImageGrab
+from PIL.ImageQt import ImageQt
+from PyQt5 import QtGui
 
 class ExampleApp(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -16,18 +19,42 @@ class ExampleApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.tableWidget_ToDo.horizontalHeader().setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeToContents)
         self.tableWidget_ToDo.horizontalHeader().setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)
         self.tableWidget_Log.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
-        self.initThread()
+        self.initThreads()
         self.pushButton_Clear.clicked.connect(self.clickClear)
         self.pushButton_Save.clicked.connect(self.clickSave)
         self.pushButton_Load.clicked.connect(self.clickLoad)
+        self.testCV.clicked.connect(self.clickTestCV)
 
-    def initThread(self):
+    def initThreads(self):
         self.treadWorker = TreadWorker(self)
         self.treadWorker.signal.connect(self.SignalTreadWorker)
         self.treadWorker.start()
         self.comboBox_Process.addItems(self.treadWorker.config.operations)
         if getattr(self.treadWorker.config,'activeOperation',-1) != -1:
             self.comboBox_Process.setCurrentIndex(self.treadWorker.config.activeOperation)
+
+    def clickTestCV(self):
+        
+        tx1 = 967
+        tx2 = 1137
+
+        im = ImageGrab.grab(bbox =(tx1, 833, tx2, 835))
+
+
+        green = 0
+        for x in range(tx1,tx2):
+            rgb = im.getpixel((x-tx1, 1))
+            if rgb[1]>100 :
+                 green = green + 1
+            print(rgb[0], rgb[1], rgb[2])
+        
+        # img1.save("ttt.jpg")
+        qim = ImageQt(im)
+        pix = QtGui.QPixmap.fromImage(qim)
+        self.label_7.setPixmap(pix)
+
+        self.textEdit_2.setPlainText(str(green / (tx2-tx1)*100))
+
 
     def clickLoad(self):
         self.treadWorker.config.save()

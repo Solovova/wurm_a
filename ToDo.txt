@@ -8,3 +8,9 @@ ExitOn
 запоминать состояние выбора
 
 pywinauto
+
+git push -u origin master
+
+pyqt5_tools
+
+pyuic5 -x design.ui -o design.py
