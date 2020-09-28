@@ -25,10 +25,23 @@
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
-        <string>Char 1</string>
+        <string>Main</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_2">
-        <item row="7" column="0" colspan="2">
+        <item row="0" column="0">
+         <widget class="QComboBox" name="comboBox_Process">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="modelColumn">
+           <number>0</number>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="0" colspan="5">
          <widget class="QTableWidget" name="tableWidget_ToDo">
           <property name="columnCount">
            <number>3</number>
@@ -50,8 +63,38 @@
           </column>
          </widget>
         </item>
-        <item row="0" column="0">
-         <widget class="QComboBox" name="comboBox_Process"/>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>Log:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="0">
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>To do:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="4">
+         <widget class="QPushButton" name="pushButton_Clear">
+          <property name="text">
+           <string>Clear</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0" colspan="5">
+         <widget class="QTableWidget" name="tableWidget_Log">
+          <property name="columnCount">
+           <number>1</number>
+          </property>
+          <column>
+           <property name="text">
+            <string>Log</string>
+           </property>
+          </column>
+         </widget>
         </item>
         <item row="0" column="1">
          <widget class="QLabel" name="label_6">
@@ -68,36 +111,19 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="0" colspan="2">
-         <widget class="QTableWidget" name="tableWidget_Log">
-          <property name="columnCount">
-           <number>1</number>
+        <item row="0" column="4">
+         <widget class="QComboBox" name="comboBox_Char">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
           </property>
-          <column>
-           <property name="text">
-            <string>Log</string>
-           </property>
-          </column>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label">
-          <property name="text">
-           <string>Log:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="0">
-         <widget class="QLabel" name="label_2">
-          <property name="text">
-           <string>To do:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="8" column="1">
-         <widget class="QPushButton" name="pushButton_Clear">
-          <property name="text">
-           <string>Clear</string>
+          <property name="minimumSize">
+           <size>
+            <width>200</width>
+            <height>0</height>
+           </size>
           </property>
          </widget>
         </item>
@@ -115,11 +141,6 @@
          </spacer>
         </item>
        </layout>
-      </widget>
-      <widget class="QWidget" name="tab_5">
-       <attribute name="title">
-        <string>Char 2</string>
-       </attribute>
       </widget>
       <widget class="QWidget" name="tab_2">
        <attribute name="title">

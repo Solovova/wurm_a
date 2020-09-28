@@ -19,6 +19,7 @@ class ExampleApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.tableWidget_ToDo.horizontalHeader().setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeToContents)
         self.tableWidget_ToDo.horizontalHeader().setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)
         self.tableWidget_Log.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
+
         self.initThreads()
         self.pushButton_Clear.clicked.connect(self.clickClear)
         self.pushButton_Save.clicked.connect(self.clickSave)
@@ -33,13 +34,19 @@ class ExampleApp(QtWidgets.QMainWindow, Ui_MainWindow):
         if getattr(self.treadWorker.config,'activeOperation',-1) != -1:
             self.comboBox_Process.setCurrentIndex(self.treadWorker.config.activeOperation)
 
-    def clickTestCV(self):
+        self.comboBox_Char.addItems(self.treadWorker.config.characters)
+        if getattr(self.treadWorker.config,'activeCharacter',-1) != -1:
+            self.comboBox_Char.setCurrentIndex(self.treadWorker.config.activeCharacter)
+
         
-        tx1 = 967
-        tx2 = 1137
 
-        im = ImageGrab.grab(bbox =(tx1, 833, tx2, 835))
+    def clickTestCV(self):
+        tx1 = self.treadWorker.config.pointHelth_tx1
+        ty1 = self.treadWorker.config.pointHelth_ty1
+        tx2 = self.treadWorker.config.pointHelth_tx2
+        ty2 = self.treadWorker.config.pointHelth_ty2
 
+        im = ImageGrab.grab(bbox =(tx1, ty1, tx2, ty2))
 
         green = 0
         for x in range(tx1,tx2):

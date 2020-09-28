@@ -16,14 +16,12 @@ class TreadWorker(QThread):
         self._isRunning = True
         self._isActive = False
         self.window = window
-        self.engine = Engine()
-        self.reloadConfig()
-        
-    def reloadConfig(self):
+
         self.config = Config()
         self.logfile = open(self.config.nameLog, "r")
         self.logfile.seek(0, 2)
-        self.engine.reset()
+
+        self.engine = Engine(self.config)
         
     def run(self):
         while self._isRunning:

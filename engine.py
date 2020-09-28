@@ -4,6 +4,7 @@ from timeit import default_timer
 import time
 from PIL import ImageGrab
 import win32gui
+import config
 
 #KeyPress (press, [waitms])
 #MouseClick (press, [waitms]) L-left button
@@ -24,10 +25,10 @@ import win32gui
 #MouseMoveDiff    dx,dy,msekwait
 #MouseDragFrom  point,wait before click, wait after click
 #MouseDragTo    point,wait before click, wait after click
+#MousePointDiff point, dx,dy
 
 #TimerSet (ntimer, ms)
 #TimerGoTo (ntimer, label)
-
 
 def isText(text,searches):
     for search in searches.split(':'):
@@ -36,7 +37,8 @@ def isText(text,searches):
     return False
 
 class Engine():
-    def __init__(self):
+    def __init__(self, conf):
+        self.config = conf
         self.reset()
 
     def reset(self):
@@ -47,6 +49,9 @@ class Engine():
         self.DoTimer0 = 0
         self.DoTimerMax = 5
         self.DoTimer = [0 for i in range(self.DoTimerMax)]
+        self.ForVarMax = 5
+        self.ForVar = [0 for i in range(self.ForVarMax)]
+
         self.log = []
         self.lastrow = ''
         self.waitEnergyTest = 0
@@ -185,11 +190,12 @@ class Engine():
 
     def SubProcedure_WaitFullEnergy(self, data):
         time.sleep(0.05)
-        tx1 = 967
-        tx2 = 1137
+        tx1 = self.config.pointHelth_tx1
+        ty1 = self.config.pointHelth_ty1
+        tx2 = self.config.pointHelth_tx2
+        ty2 = self.config.pointHelth_ty2
 
-        im = ImageGrab.grab(bbox =(tx1, 833, tx2, 835))
-
+        im = ImageGrab.grab(bbox =(tx1, ty1, tx2, ty2))
 
         green = 0
         for x in range(tx1,tx2):
@@ -231,6 +237,15 @@ class Engine():
 
 
     def SubProcedure_MouseMoveDiff(self,data):
+        self.Points[int(data[0])][0] = self.Points[int(data[0])][0] + int(data[1])
+        self.Points[int(data[0])][1] = self.Points[int(data[0])][1] + int(data[2])
+        return 1
+
+    def SubProcedure_MouseMoveDiffYConf(self,data):
+        self.Points[int(data[0])][1] = self.Points[int(data[0])][1] + self.config.diff_y
+        return 1
+    
+    def SubProcedure_MousePointDiff(self,data):
         pos = mouse.get_position()
         mouse.move(pos[0] + int(data[0]), pos[1] + int(data[1]))
         if len(data)>2:

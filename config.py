@@ -13,7 +13,31 @@ class Config:
         conf.readfp(codecs.open(path, "r", "utf8"))
         
         self.operations = [st.strip() for st in conf['Main']['operations'].split(',')]
-        self.nameLog = conf['Main']['nameLog'].strip()
+
+        self.characters = [st.strip() for st in conf['Main']['characters'].split(',')]
+
+        # Set active character
+        pathw = "configw.ini"
+        if os.path.isfile(pathw):
+            confw = configparser.ConfigParser()
+            confw.readfp(codecs.open(pathw, "r", "utf8"))
+            try:
+                self.activeCharacter = int(confw['Main']['activeCharacter'].strip())
+            except:
+                self.activeCharacter = 0
+        
+        characterName = self.characters[self.activeCharacter]
+        print("characterName", characterName)
+
+
+        self.pointHelth_tx1 = int(conf[characterName]['pointHelth_tx1'].strip())
+        self.pointHelth_ty1 = int(conf[characterName]['pointHelth_ty1'].strip())
+        self.pointHelth_tx2 = int(conf[characterName]['pointHelth_tx2'].strip())
+        self.pointHelth_ty2 = int(conf[characterName]['pointHelth_ty2'].strip())
+
+        self.diff_y = int(conf[characterName]['diff_y'].strip())
+
+        self.nameLog = conf[characterName]['nameLog'].strip()
         self.operationsToDo   = []
         self.operationsPointName = []
         self.operationsPoint = []
@@ -51,6 +75,7 @@ class Config:
         configw = configparser.ConfigParser()
         configw.add_section("Main")
         configw.set("Main", "activeOperation", str(self.activeOperation))
+        configw.set("Main", "activeCharacter", str(self.activeCharacter))
         
         configw.add_section("Points")
         for ind0 in range(len(self.operationsPoint)):

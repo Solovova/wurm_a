@@ -14,3 +14,16 @@ git push -u origin master
 pyqt5_tools
 
 pyuic5 -x design.ui -o design.py
+
+shutdown -s -t 600  — выключить компьютер через 600 секунд (5 минут); shutdown -a  — отменить перезагрузку/выключение, которые включены предыдущими командами.
+shutdown -s -t 10800
+
+Take 
+Hider
+->Mine
+
+SoloSt
+->Craft_simple
+
+VPri
+->Pray
